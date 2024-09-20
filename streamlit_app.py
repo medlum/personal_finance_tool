@@ -4,6 +4,10 @@ from streamlit_dynamic_filters import DynamicFilters
 from datetime import datetime
 from utils import *
 
+# ---------set up page config -------------#
+st.set_page_config(page_title="income and expenses",
+                   layout="wide", page_icon="👾")
+
 
 st.header("Income and expenses dashboard")
 
