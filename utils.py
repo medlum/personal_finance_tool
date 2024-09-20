@@ -5,18 +5,37 @@ from googleapiclient.http import MediaIoBaseDownload
 from googleapiclient.http import MediaFileUpload
 import io
 import streamlit as st
-import pickle
 import json
+
+# https://google-auth.readthedocs.io/en/master/reference/google.oauth2.service_account.html
+
+service_account_info = {
+    "type": f"{st.secrets['type']}",
+    "project_id": f"{st.secrets['project_id']}",
+    "private_key_id": f"{st.secrets['private_key_id']}",
+    "private_key": f"{st.secrets['private_key']}",
+    "client_email": f"{st.secrets['client_email']}",
+    "client_id": f"{st.secrets['client_id']}",
+    "auth_uri": f"{st.secrets['auth_uri']}",
+    "token_uri": f"{st.secrets['token_uri']}",
+    "auth_provider_x509_cert_url": f"{st.secrets['auth_provider_x509_cert_url']}",
+    "client_x509_cert_url": f"{st.secrets['client_x509_cert_url']}",
+    "universe_domain": f"{st.secrets['universe_domain']}"
+
+}
+
 
 # ------ SETUP GOOGLE DRIVE ACCESS ------#
 # define the Google Drive API scopes and service account file path
 SCOPES = ['https://www.googleapis.com/auth/drive']
-# SERVICE_ACCOUNT_FILE = (st.secrets["google"])
 SERVICE_ACCOUNT_FILE = "woofwoofgpt.json"
 
 # Create credentials using the service account file
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+
+credentials = service_account.Credentials.from_service_account_info(
+    service_account_info)
+# credentials = service_account.Credentials.from_service_account_file(
+#    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 
 # Build the Google Drive service
 drive_service = build('drive', 'v3', credentials=credentials)
