@@ -7,8 +7,7 @@ import io
 import streamlit as st
 import json
 
-# https://google-auth.readthedocs.io/en/master/reference/google.oauth2.service_account.html
-
+# manually created json and hide the info in st.secrets
 service_account_info = {
     "type": f"{st.secrets['type']}",
     "project_id": f"{st.secrets['project_id']}",
@@ -24,18 +23,19 @@ service_account_info = {
 
 }
 
-
 # ------ SETUP GOOGLE DRIVE ACCESS ------#
 # define the Google Drive API scopes and service account file path
 SCOPES = ['https://www.googleapis.com/auth/drive']
-SERVICE_ACCOUNT_FILE = "woofwoofgpt.json"
 
-# Create credentials using the service account file
-
-credentials = service_account.Credentials.from_service_account_info(
-    service_account_info)
+# if using json file --->
+# # SERVICE_ACCOUNT_FILE = "woofwoofgpt.json"
 # credentials = service_account.Credentials.from_service_account_file(
 #    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+
+
+# else i used service_account_info
+credentials = service_account.Credentials.from_service_account_info(
+    service_account_info, scopes=SCOPES)
 
 # Build the Google Drive service
 drive_service = build('drive', 'v3', credentials=credentials)
